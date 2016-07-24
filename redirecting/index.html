@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Redirecting</title>
+	<script type="text/javascript" src="js/paper.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/paperscript" canvas="canvas">
+	
+		// recenter on resize
+		/* function onResize(event) {
+			secondPath.position = view.center;
+		} */
+		
+		
+		
+		// Function to create path
+		
+		function createPath() {
+			secondPath = new Path();
+			originalPath = new Path();
+			for (var m = 1; m < 6; m++) {
+				var point = new Point((view.size.width - 200), (view.size.height - 200)) * Point.random();
+				point = point + [100, 100];
+				secondPath.add(point);
+				originalPath.add(point);
+			}
+			
+			// Close the path
+			secondPath.closed = true;
+			originalPath.closed = true;
+		
+			// Smooth the path
+			secondPath.smooth();
+			originalPath.smooth();
+			
+			// Center path
+			secondPath.position = view.center;
+			originalPath.position = view.center;
+			
+			// Test viability of path
+			var intersections = secondPath.getIntersections(secondPath);
+			
+			if (intersections.length == '1') {
+				
+				secondPath.strokeColor = 'white';
+				// secondPath.strokeColor.alpha = '0.6';
+				secondPath.strokeWidth = 0;
+				// secondPath.shadowColor = 'blue';
+				
+				colorOne = Math.random();
+				colorTwo = Math.random();
+				colorThr = Math.random();
+				colorFou = Math.random();
+				colorFiv = Math.random();
+				colorSix = Math.random();
+				colorSev = Math.random();
+				colorEig = Math.random();
+				colorNin = Math.random();
+				colorTen = Math.random();
+				colorEle = Math.random();
+				colorTwe = Math.random();
+				
+				firstColor = new Color(colorOne, colorTwo, colorThr); 
+				secondColor = new Color(colorFou, colorFiv, colorSix); 
+				thirdColor = new Color(colorSev, colorEig, colorNin); 
+				fourthColor = new Color(colorTen, colorEle, colorTwe); 
+				
+				gradient = new Gradient([firstColor, secondColor, thirdColor, fourthColor]);
+				gradientColor = new Color(gradient, secondPath.bounds.topLeft, secondPath.bounds.bottomRight);
+				
+				// secondPath.fillColor = gradientColor; 
+				
+				
+				
+				// secondPath.fillColor = 'blue'; 
+				/* secondPath.fillColor = {
+					gradient: {
+						stops: [['orange', 0], ['yellow', 0.25], ['pink', 0.5], ['black', 0.75], ['green', 1]],
+						linear: true
+					},
+					origin: secondPath.bounds.leftCenter,
+					destination: secondPath.bounds.rightCenter
+				}; */
+				
+				originalPath.strokeColor = 'transparent';
+				
+					// Select path for visibility
+					// secondPath.fullySelected = true;
+
+					// Mark intsersection
+					/*
+					var intersectionPath = new Path.Circle({
+						center: intersections[0].point,
+						radius: 4,
+						fillColor: 'red',
+					});
+					*/
+					
+			} else {
+				secondPath.remove();
+				originalPath.remove();
+				createPath();
+			}
+		}
+
+
+		// Function to create new path
+		
+		function createNewPath() {
+			thirdPath = new Path();
+			for (var m = 1; m < 6; m++) {
+				var point = new Point((view.size.width - 200), (view.size.height - 200)) * Point.random();
+				point = point + [100, 100];
+				thirdPath.add(point);
+			}
+			
+			// Close the path
+			thirdPath.closed = true;
+		
+			// Smooth the path
+			thirdPath.smooth();
+			
+			// Center path
+			thirdPath.position = view.center;
+			
+			// Test viability of path
+			var intersections = thirdPath.getIntersections(thirdPath);
+			
+			if (intersections.length == '1') {
+				
+				thirdPath.visible = false;
+				
+					// Select path for visibility
+					// thirdPath.fullySelected = true;
+
+					// Mark intsersection
+					/*
+					var intersectionPath = new Path.Circle({
+						center: intersections[0].point,
+						radius: 4,
+						fillColor: 'red',
+					});
+					*/
+					
+			} else {
+				thirdPath.remove();
+				createNewPath();
+			}
+		}
+				
+		// Create path
+		createPath();
+		
+		// Create new path
+		createNewPath();
+	
+								
+		function onFrame(event) {
+				
+			// Loop through the segments of the path:
+			
+					for (var i = 0; i <= 4; i++) {
+						var originalSegment = originalPath.segments[i];
+						var secondSegment = secondPath.segments[i];
+						var thirdSegment = thirdPath.segments[i];
+						var ydiff = originalSegment.point.y - thirdSegment.point.y;
+						var xdiff = originalSegment.point.x - thirdSegment.point.x;
+						var inhandlediff = originalSegment.handleIn - thirdSegment.handleIn;
+						var outhandlediff = originalSegment.handleOut - thirdSegment.handleOut;
+					
+						// Change the position of the segment point:
+						secondSegment.handleIn += inhandlediff / -1300;
+						secondSegment.handleOut += outhandlediff / -1300;
+						secondSegment.point.y += ydiff / -1300;
+						secondSegment.point.x += xdiff / -1300;
+					
+						var ypathDifference = secondSegment.point.y - thirdSegment.point.y;
+						var xpathDifference = secondSegment.point.x - thirdSegment.point.x;
+						
+						
+					}
+					
+					// change the color
+					// secondPath.fillColor.hue += 1;
+					
+					/* colorOne += .001;
+					colorTwo += .001;
+					colorThr += .001;
+					colorFou += .001;
+					colorFiv += .001;
+					colorSix += .001;
+					colorSev += .001;
+					colorEig += .001;
+					colorNin += .001;
+					colorTen += .001;
+					colorEle += .001;
+					colorTwe += .001; 
+					
+					if (colorOne >= 1) {
+						colorOne += -.001;
+					}
+					
+					if (colorTwo >= 1) {
+						colorTwo = Math.random();
+					}
+					
+					if (colorThr >= 1) {
+						colorThr = Math.random();
+					}
+					
+					if (colorFou >= 1) {
+						colorOne = Math.random();
+					}
+					
+					if (colorFou >= 1) {
+						colorOne = Math.random();
+					}
+					
+					if (colorFiv >= 1) {
+						colorFiv = Math.random();
+					}
+					
+					if (colorSix >= 1) {
+						colorSix = Math.random();
+					}
+					
+					if (colorSev >= 1) {
+						colorSev = Math.random();
+					}
+					
+					if (colorEig >= 1) {
+						colorEig = Math.random();
+					}
+					
+					if (colorNin >= 1) {
+						colorNin = Math.random();
+					}
+					
+					if (colorTen >= 1) {
+						colorTen = Math.random();
+					}
+					
+					if (colorEle >= 1) {
+						colorEle = Math.random();
+					}
+					
+					if (colorTwe >= 1) {
+						colorTwe = Math.random();
+					}
+				
+					firstColor = new Color(colorOne, colorTwo, colorThr); 
+					secondColor = new Color(colorFou, colorFiv, colorSix); 
+					thirdColor = new Color(colorSev, colorEig, colorNin); 
+					fourthColor = new Color(colorTen, colorEle, colorTwe); 
+				
+					gradient = new Gradient([firstColor, secondColor, thirdColor, fourthColor]);
+					gradientColor = new Color(gradient, secondPath.bounds.topLeft, secondPath.bounds.bottomRight, secondPath.bounds.centerCenter);
+				
+					secondPath.fillColor = gradientColor; */
+					
+					// gradientColor = new Color(gradient, Point.random(), Point.random(), Point.random());
+					
+					// point = new Point(circlePath.bounds.topRight);
+					
+					gradientColor = new Color(gradient, secondPath.bounds.topLeft, secondPath.bounds.bottomRight);
+					
+					secondPath.fillColor = gradientColor;
+					//secondPath.strokeColor = 'black';
+					
+					// secondPath.fillColor.hue += .1;
+					
+					/* var modValOne = event.count % 100;
+					
+					if (modValOne == 0) {	
+						var newPath = secondPath.clone();
+						newPath.insertBelow(secondPath);
+					}
+					
+					*/
+					
+					var modVal = event.count % 1300;
+		
+					if (modVal == 0) {
+						originalPath.remove();
+						originalPath = secondPath.clone();
+						originalPath.visible = false;
+						thirdPath.remove();
+						createNewPath();
+						console.log("mod" + modVal);
+					}
+			
+			// the number of times the frame event was fired:
+	console.log(event.count);
+
+	// The total amount of time passed since
+	// the first frame event in seconds:
+	console.log(event.time);
+
+	// The time passed in seconds since the last frame event:
+	console.log(event.delta);
+			
+			
+		}
+		
+		/* function onMouseMove(event) {
+			secondPath.position = view.center + event.point / 20;
+			thirdPath.position = view.center + event.point / 20;
+		} */
+		
+		
+		function onResize(event) {
+			secondPath.position = view.center;
+			thirdPath.position = view.center;
+		}
+		
+
+	</script>
+	
+	<style>
+	
+		body { margin: 0; padding: 0; }
+		#canvas { width: 99% !important; }
+	
+	</style>
+</head>
+<body>
+	<div style="position: absolute; font-size: 45px; z-index: -1; ">This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. </div>
+	<canvas id="canvas" resize></canvas>
+</body>
+</html>

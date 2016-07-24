@@ -1,0 +1,60 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<title>Future--Perfect</title>
+		<style>
+			#title-1, #title-2 { position: fixed; width: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 26px; letter-spacing: 2px; text-align: center;  }
+			#title-1 { top: -38px; line-height: 28px; }
+			#title-2 { bottom: -40px; line-height: 29px; }
+			
+			#content { position: relative; margin-top: 70px; margin-left: 20%; }
+			#content p { margin: 0; padding: 0; }
+			.quote { font-size: 40px; }
+			.skew {
+				-webkit-transform-origin:50% -40px;  
+				-moz-transform-origin:50% -40px;   
+				-webkit-animation: oscillation 14s ease-in-out infinite alternate;
+				-moz-animation: oscillation 14s ease-in-out infinite alternate;
+			}
+			
+			@-webkit-keyframes oscillation
+			{
+				from
+				{
+					-webkit-transform:rotate(-2deg) skew(0deg) scale(1);
+				}
+				to{
+					-webkit-transform:rotate(2deg) skew(10deg) scale(1.2);
+				}
+			}
+			 
+			@-moz-keyframes oscillation
+			{
+				from{
+					-moz-transform:rotate(-2deg) skew(0deg) scale(1);
+				}
+				to{
+					-moz-transform:rotate(2deg) skew(10deg) scale(1.2);
+				}
+			}
+						
+		</style>
+	</head>
+	<body>
+		<div id="title-1">
+			<p>Future<br />-</p>
+		</div>
+		<div id="content">
+			<p class="quote skew">Swinging in the backyard</p>
+			<p class="quote skew">Pull up in your fast car</p>
+			<p class="quote skew">Whistling my name</p>
+			<p class="quote skew">Open up a beer</p>
+			<p class="quote skew">And you say,</p>
+			<p class="quote skew">Get over here</p>
+			<p class="quote skew">And play a <a href="http://www.amazon.com/gp/product/B005JB84GM/ref=ox_sc_sfl_title_2?ie=UTF8&smid=ATVPDKIKX0DER">video game</a></p>
+		</div>
+		<div id="title-2">
+			<p>-<br />Perfect</p>
+		</div>
+	</body>
+</html>
